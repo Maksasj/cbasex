@@ -1,7 +1,7 @@
 CC=gcc
-SOURCE=crfc4648_example.c
+SOURCE=crfc4648_tests.c
 OBJ=$(SOURCE:.c=.o)
-EXE=crfc4648_example
+EXE=crfc4648_tests
 
 all: $(EXE) clean execute
 
