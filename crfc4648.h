@@ -27,9 +27,24 @@ uint64_t encode_base64(char** dst, void* src, uint64_t size) {
 
     uint64_t wrote = 0;
 
-    for(int i = 0; i < full_quantum; ++i) {
-        bit_24_t bits = ((bit_24_t*) src)[i]; 
-        unsigned int quantum = (bits.a << 16) | (bits.b << 8) | bits.c;
+    uint64_t padding = size % 3;
+
+    int i = 0;
+    for(; i < size; i += 3) {
+        unsigned char a = ((unsigned char*) src)[i];
+
+        if(i + 1 <= size) {
+            break;
+        }
+
+        if(i + 2 <= size) {
+            break;
+        }
+        
+        unsigned char b = ((unsigned char*) src)[i + 1];
+        unsigned char c = ((unsigned char*) src)[i + 2];
+
+        unsigned int quantum = (a << 16) | (b << 8) | c;
 
         (*dst)[wrote] = base64_alphabet[(quantum >> 18) & 0x3F];
         (*dst)[wrote + 1] = base64_alphabet[(quantum >> 12) & 0x3F];
@@ -41,15 +56,29 @@ uint64_t encode_base64(char** dst, void* src, uint64_t size) {
     }
 
     // 8 bits
-    if(size == 1) {
-        // Todo
-        printf("1 bits left\n");
+    if(padding == 1) {
+        bit_24_t bits = ((bit_24_t*) src)[i]; 
+        unsigned int quantum = (bits.a << 16) | (bits.b << 8) | bits.c;
+
+        (*dst)[wrote] = base64_alphabet[(quantum >> 18) & 0x3F];
+        (*dst)[wrote + 1] = base64_alphabet[(quantum >> 12) & 0x3F];
+        (*dst)[wrote + 2] = '=';
+        (*dst)[wrote + 3] = '=';
+
+        wrote += 4;
     }
 
     // 16 bits
-    if(size == 2) {
-        // Todo
-        printf("2 bits left\n");
+    if(padding == 2) {
+        bit_24_t bits = ((bit_24_t*) src)[i]; 
+        unsigned int quantum = (bits.a << 16) | (bits.b << 8) | bits.c;
+
+        (*dst)[wrote] = base64_alphabet[(quantum >> 18) & 0x3F];
+        (*dst)[wrote + 1] = base64_alphabet[(quantum >> 12) & 0x3F];
+        (*dst)[wrote + 2] = base64_alphabet[(quantum >> 6) & 0x3F];
+        (*dst)[wrote + 3] = '=';
+
+        wrote += 4;
     }
 
     return wrote;
