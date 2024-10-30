@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define FAIL 0
 #define OK 1
@@ -33,11 +34,12 @@ int test_encode_base64_empty() {
    char expected[] = "";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base64(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base64(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -46,11 +48,12 @@ int test_encode_base64_f() {
    char expected[] = "Zg==";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base64(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base64(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -59,11 +62,12 @@ int test_encode_base64_fo() {
    char expected[] = "Zm8=";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base64(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base64(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -72,11 +76,12 @@ int test_encode_base64_foo() {
    char expected[] = "Zm9v";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base64(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base64(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -85,11 +90,12 @@ int test_encode_base64_foob() {
    char expected[] = "Zm9vYg==";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base64(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base64(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -98,11 +104,12 @@ int test_encode_base64_fooba() {
    char expected[] = "Zm9vYmE=";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base64(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base64(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -111,11 +118,12 @@ int test_encode_base64_foobar() {
    char expected[] = "Zm9vYmFy";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base64(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base64(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -124,11 +132,12 @@ int test_encode_base32_empty() {
    char expected[] = "";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base32(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base32(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -137,11 +146,12 @@ int test_encode_base32_f() {
    char expected[] = "MY======";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base32(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base32(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -150,11 +160,12 @@ int test_encode_base32_fo() {
    char expected[] = "MZXQ====";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base32(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base32(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -163,11 +174,12 @@ int test_encode_base32_foo() {
    char expected[] = "MZXW6===";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base32(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base32(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -176,11 +188,12 @@ int test_encode_base32_foob() {
    char expected[] = "MZXW6YQ=";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base32(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base32(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -189,11 +202,12 @@ int test_encode_base32_fooba() {
    char expected[] = "MZXW6YTB";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base32(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base32(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -202,11 +216,12 @@ int test_encode_base32_foobar() {
    char expected[] = "MZXW6YTBOI======";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base32(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base32(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
    int test_encode_base32hex_empty() {
@@ -214,11 +229,12 @@ int test_encode_base32_foobar() {
    char expected[] = "";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base32hex(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base32hex(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -227,11 +243,12 @@ int test_encode_base32hex_f() {
    char expected[] = "CO======";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base32hex(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base32hex(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -240,11 +257,12 @@ int test_encode_base32hex_fo() {
    char expected[] = "CPNG====";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base32hex(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base32hex(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -253,11 +271,12 @@ int test_encode_base32hex_foo() {
    char expected[] = "CPNMU===";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base32hex(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base32hex(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -266,11 +285,12 @@ int test_encode_base32hex_foob() {
    char expected[] = "CPNMUOG=";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base32hex(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base32hex(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -279,11 +299,12 @@ int test_encode_base32hex_fooba() {
    char expected[] = "CPNMUOJ1";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base32hex(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base32hex(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -292,11 +313,12 @@ int test_encode_base32hex_foobar() {
    char expected[] = "CPNMUOJ1E8======";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base32hex(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base32hex(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -305,11 +327,12 @@ int test_encode_base16_empty() {
    char expected[] = "";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base16(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base16(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -318,11 +341,12 @@ int test_encode_base16_f() {
    char expected[] = "66";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base16(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base16(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -331,11 +355,12 @@ int test_encode_base16_fo() {
    char expected[] = "666F";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base16(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base16(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -344,11 +369,12 @@ int test_encode_base16_foo() {
    char expected[] = "666F6F";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base16(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base16(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -357,11 +383,12 @@ int test_encode_base16_foob() {
    char expected[] = "666F6F62";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base16(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base16(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -370,11 +397,12 @@ int test_encode_base16_fooba() {
    char expected[] = "666F6F6261";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base16(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base16(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
@@ -383,43 +411,44 @@ int test_encode_base16_foobar() {
    char expected[] = "666F6F626172";
    uint64_t length = strlen(input);
    
-   char encoded[100] = { '\0' };
-   uint64_t wrote = encode_base16(encoded, input, length);
+   char* encoded = calloc(100, sizeof(char));
+   uint64_t wrote = encode_base16(&encoded, input, length);
 
    ENSURE_STRING_EQ(encoded, expected);
 
+   free(encoded);
    return OK;
 }
 
 int main() {
-    RUN_TEST(test_encode_base64_empty);
-    RUN_TEST(test_encode_base64_f);
-    RUN_TEST(test_encode_base64_fo);
-    RUN_TEST(test_encode_base64_foo);
-    RUN_TEST(test_encode_base64_foob);
-    RUN_TEST(test_encode_base64_fooba);
-    RUN_TEST(test_encode_base64_foobar);
-    RUN_TEST(test_encode_base32_empty);
-    RUN_TEST(test_encode_base32_f);
-    RUN_TEST(test_encode_base32_fo);
-    RUN_TEST(test_encode_base32_foo);
-    RUN_TEST(test_encode_base32_foob);
-    RUN_TEST(test_encode_base32_fooba);
-    RUN_TEST(test_encode_base32_foobar);
-    RUN_TEST(test_encode_base32hex_empty);
-    RUN_TEST(test_encode_base32hex_f);
-    RUN_TEST(test_encode_base32hex_fo);
-    RUN_TEST(test_encode_base32hex_foo);
-    RUN_TEST(test_encode_base32hex_foob);
-    RUN_TEST(test_encode_base32hex_fooba);
-    RUN_TEST(test_encode_base32hex_foobar);
-    RUN_TEST(test_encode_base16_empty);
-    RUN_TEST(test_encode_base16_f);
-    RUN_TEST(test_encode_base16_fo);
-    RUN_TEST(test_encode_base16_foo);
-    RUN_TEST(test_encode_base16_foob);
-    RUN_TEST(test_encode_base16_fooba);
-    RUN_TEST(test_encode_base16_foobar);
+   RUN_TEST(test_encode_base64_empty);
+   RUN_TEST(test_encode_base64_f);
+   RUN_TEST(test_encode_base64_fo);
+   RUN_TEST(test_encode_base64_foo);
+   RUN_TEST(test_encode_base64_foob);
+   RUN_TEST(test_encode_base64_fooba);
+   RUN_TEST(test_encode_base64_foobar);
+   RUN_TEST(test_encode_base32_empty);
+   RUN_TEST(test_encode_base32_f);
+   RUN_TEST(test_encode_base32_fo);
+   RUN_TEST(test_encode_base32_foo);
+   RUN_TEST(test_encode_base32_foob);
+   RUN_TEST(test_encode_base32_fooba);
+   RUN_TEST(test_encode_base32_foobar);
+   RUN_TEST(test_encode_base32hex_empty);
+   RUN_TEST(test_encode_base32hex_f);
+   RUN_TEST(test_encode_base32hex_fo);
+   RUN_TEST(test_encode_base32hex_foo);
+   RUN_TEST(test_encode_base32hex_foob);
+   RUN_TEST(test_encode_base32hex_fooba);
+   RUN_TEST(test_encode_base32hex_foobar);
+   RUN_TEST(test_encode_base16_empty);
+   RUN_TEST(test_encode_base16_f);
+   RUN_TEST(test_encode_base16_fo);
+   RUN_TEST(test_encode_base16_foo);
+   RUN_TEST(test_encode_base16_foob);
+   RUN_TEST(test_encode_base16_fooba);
+   RUN_TEST(test_encode_base16_foobar);
 
     return 0;
 }
