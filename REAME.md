@@ -1,0 +1,1 @@
+implementation of the Base16, Base32, and Base64 data encodings from RFC 4648 standart
