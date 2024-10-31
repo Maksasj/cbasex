@@ -23,63 +23,45 @@ typedef struct {
 #ifdef CRFC_4648_IMPLEMENTATION
 
 uint64_t encode_base64(char** dst, void* src, uint64_t size) {
-    uint64_t full_quantum = size / 3; 
-
+    uint64_t padding = size % 3;
     uint64_t wrote = 0;
 
-    uint64_t padding = size % 3;
+    unsigned char a, b, c;
+    unsigned int quantum = 0;
 
-    int i = 0;
-    for(; i < size; i += 3) {
-        unsigned char a = ((unsigned char*) src)[i];
+    uint64_t i = 0;
+    for(; i < (size - padding); i += 3) {
+        a = ((unsigned char*) src)[i];
+        b = ((unsigned char*) src)[i + 1];
+        c = ((unsigned char*) src)[i + 2];
 
-        if(i + 1 <= size) {
-            break;
-        }
+        quantum = (a << 16) | (b << 8) | c;
 
-        if(i + 2 <= size) {
-            break;
-        }
-        
-        unsigned char b = ((unsigned char*) src)[i + 1];
-        unsigned char c = ((unsigned char*) src)[i + 2];
-
-        unsigned int quantum = (a << 16) | (b << 8) | c;
-
-        (*dst)[wrote] = base64_alphabet[(quantum >> 18) & 0x3F];
-        (*dst)[wrote + 1] = base64_alphabet[(quantum >> 12) & 0x3F];
-        (*dst)[wrote + 2] = base64_alphabet[(quantum >> 6) & 0x3F];
-        (*dst)[wrote + 3] = base64_alphabet[quantum & 0x3F];
-
-        wrote += 4;
-        size -= 3;
+        (*dst)[wrote++] = base64_alphabet[(quantum >> 18) & 0x3F];
+        (*dst)[wrote++] = base64_alphabet[(quantum >> 12) & 0x3F];
+        (*dst)[wrote++] = base64_alphabet[(quantum >> 6) & 0x3F];
+        (*dst)[wrote++] = base64_alphabet[quantum & 0x3F];
     }
 
-    // 8 bits
+    a = ((unsigned char*) src)[i];
+    b = ((unsigned char*) src)[i + 1];
+    c = ((unsigned char*) src)[i + 2];
+
+    quantum = (a << 16) | (b << 8) | c;
+
     if(padding == 1) {
-        bit_24_t bits = ((bit_24_t*) src)[i]; 
-        unsigned int quantum = (bits.a << 16) | (bits.b << 8) | bits.c;
-
-        (*dst)[wrote] = base64_alphabet[(quantum >> 18) & 0x3F];
-        (*dst)[wrote + 1] = base64_alphabet[(quantum >> 12) & 0x3F];
-        (*dst)[wrote + 2] = '=';
-        (*dst)[wrote + 3] = '=';
-
-        wrote += 4;
+        (*dst)[wrote++] = base64_alphabet[(quantum >> 18) & 0x3F];
+        (*dst)[wrote++] = base64_alphabet[(quantum >> 12) & 0x3F];
+        (*dst)[wrote++] = '=';
+        (*dst)[wrote++] = '=';
+    } else if(padding == 2) {
+        (*dst)[wrote++] = base64_alphabet[(quantum >> 18) & 0x3F];
+        (*dst)[wrote++] = base64_alphabet[(quantum >> 12) & 0x3F];
+        (*dst)[wrote++] = base64_alphabet[(quantum >> 6) & 0x3F];
+        (*dst)[wrote++] = '=';
     }
 
-    // 16 bits
-    if(padding == 2) {
-        bit_24_t bits = ((bit_24_t*) src)[i]; 
-        unsigned int quantum = (bits.a << 16) | (bits.b << 8) | bits.c;
-
-        (*dst)[wrote] = base64_alphabet[(quantum >> 18) & 0x3F];
-        (*dst)[wrote + 1] = base64_alphabet[(quantum >> 12) & 0x3F];
-        (*dst)[wrote + 2] = base64_alphabet[(quantum >> 6) & 0x3F];
-        (*dst)[wrote + 3] = '=';
-
-        wrote += 4;
-    }
+    (*dst)[wrote++] = '\0';
 
     return wrote;
 }

@@ -24,7 +24,12 @@ void run_test_group(test_case_t test_case) {
 #define RUN_TEST_GROUP(GROUP) run_test_group(&(GROUP))
 
 #define ENSURE_EQ(A, B) if((A) != (B)) return FAIL
-#define ENSURE_STRING_EQ(A, B) if(strcmp((A), (B)) != 0) return FAIL
+
+int compare_string(char* encoded, char* expected) {
+   return strcmp(encoded, expected) != 0;
+}
+
+#define ENSURE_STRING_EQ(A, B) if(compare_string((A), (B))) return FAIL
 
 #define CRFC_4648_IMPLEMENTATION
 #include "crfc4648.h"
