@@ -1,7 +1,7 @@
 CC=gcc
-SOURCE=crfc4648_tests.c
+SOURCE=cbasex.c
 OBJ=$(SOURCE:.c=.o)
-EXE=crfc4648_tests
+EXE=cbasex
 
 all: $(EXE) clean execute
 
