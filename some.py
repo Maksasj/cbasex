@@ -1,14 +1,21 @@
-some = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+base64_alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+base64_url_safe_alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
+base32_alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
+base32_hex_alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUV"
+base16_alphabet = "0123456789ABCDEF"
 
-# Create an array with 128 slots (ASCII range) initialized to -1
-ascii_index_map = [-1] * 128
+def get_alphabet(some):
+    ascii_index_map = [-1] * 256
 
-# Fill the array with indices from 'some' based on ASCII values
-for index, char in enumerate(some):
-    ascii_index_map[ord(char)] = index
+    for index, char in enumerate(some):
+        ascii_index_map[ord(char)] = index
 
-for l in ascii_index_map:
+    return ascii_index_map
+
+for l in get_alphabet(base16_alphabet):
     print(l)
+
+
 
 # Example usage
 # print(ascii_index_map[ord("A")])  # Output: 0
